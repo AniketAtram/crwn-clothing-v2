@@ -1,44 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import './App.scss';
+
+import CategoryContainer from './components/CategoryContainer/CategoryContainer';
+
+const categories = [
+  {id:1, title:"Hats", imgUrl:"https://i.ibb.co/cvpntL1/hats.png"},
+  {id:2, title:"Jackets", imgUrl:"https://i.ibb.co/px2tCc3/jackets.png"},
+  {id:3, title:"Sneakers", imgUrl:"https://i.ibb.co/0jqHpnp/sneakers.png"},
+  {id:4, title:"Womens", imgUrl:"https://i.ibb.co/GCCdy8t/womens.png"},
+  {id:5, title:"Mens", imgUrl:"https://i.ibb.co/R70vBrQ/men.png"},
+]
 
 function App() {
   return (
     <div className="categories-container">
-      <div className='category-conatiner'>
-        {/* Image goes here */}
-        <div className='category-body-container'>
-          <h2>Hats</h2>
-          <p>Shop Now</p>
-        </div>
-      </div>
-      <div className='category-conatiner'>
-        {/* Image goes here */}
-        <div className='category-body-container'>
-          <h2>Jackets</h2>
-          <p>Shop Now</p>
-        </div>
-      </div>
-      <div className='category-conatiner'>
-        {/* Image goes here */}
-        <div className='category-body-container'>
-          <h2>Sneakers</h2>
-          <p>Shop Now</p>
-        </div>
-      </div>
-      <div className='category-conatiner'>
-        {/* Image goes here */}
-        <div className='category-body-container'>
-          <h2>Womens</h2>
-          <p>Shop Now</p>
-        </div>
-      </div>
-      <div className='category-conatiner'>
-        {/* Image goes here */}
-        <div className='category-body-container'>
-          <h2>Mens</h2>
-          <p>Shop Now</p>
-        </div>
-      </div>
+      <CategoryContainer data={categories} />
     </div>
   );
 }
