@@ -1,5 +1,7 @@
 import React, { Fragment, useState } from 'react'
 
+import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from '../../../utils/firebase/firebase.config'
+
 const defaultFormFieldValues = {
 	displayName: '',
 	userEmail: '',
@@ -18,22 +20,39 @@ export default function SignUpForm() {
 		console.log(formFields)
 	}
 
+	async function onFormSubmitHandler(event) {
+		event.preventDefault()
+		// Check if the entered password matches with confirm password
+		if ((password !== confirmPassword) || (!userEmail.length > 0)) {
+			console.log('passwords do not match')
+			return
+		}
+		try {
+			const { user } = await createAuthUserWithEmailAndPassword(userEmail, password)
+			await createUserDocumentFromAuth(user, { displayName })
+			setFormFields(defaultFormFieldValues)
+		}
+		catch (error) {
+			console.log('Ooops Something went wrong!', error?.message)
+		}
+	}
+
 	return (
 		<Fragment>
 			<div>
 				<h1>Sign uo with username and password</h1>
-				<form onSubmit={() => { }}>
+				<form onSubmit={(event) => onFormSubmitHandler(event)}>
 					<label>Username</label>
-					<input name='displayName' type='text' required onChange={(event) => onInputChangeHandler(event)} />
+					<input name='displayName' value={displayName} type='text' required onChange={(event) => onInputChangeHandler(event)} />
 
 					<label>Email</label>
-					<input name='userEmail' type='email' required onChange={(event) => onInputChangeHandler(event)} />
+					<input name='userEmail' value={userEmail} type='email' required onChange={(event) => onInputChangeHandler(event)} />
 
 					<label>Password</label>
-					<input name='password' type='password' required onChange={(event) => onInputChangeHandler(event)} />
+					<input name='password' value={password} type='password' required onChange={(event) => onInputChangeHandler(event)} />
 
 					<label>Confirm Password</label>
-					<input name='confirmPassword' type='password' required onChange={(event) => onInputChangeHandler(event)} />
+					<input name='confirmPassword' value={confirmPassword} type='password' required onChange={(event) => onInputChangeHandler(event)} />
 
 					<button type='submit'>Sign Up</button>
 				</form>
