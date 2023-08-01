@@ -1,6 +1,9 @@
 import React, { Fragment, useState } from 'react'
+import './SignUpForm.scss'
 
 import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from '../../../utils/firebase/firebase.config'
+import FormInput from '../../../components/FormInput/FormInput'
+import Button from '../../../components/Button/Button'
 
 const defaultFormFieldValues = {
 	displayName: '',
@@ -17,7 +20,6 @@ export default function SignUpForm() {
 	function onInputChangeHandler(event) {
 		const { name, value } = event.target
 		setFormFields({ ...formFields, [name]: value })
-		console.log(formFields)
 	}
 
 	async function onFormSubmitHandler(event) {
@@ -33,28 +35,54 @@ export default function SignUpForm() {
 			setFormFields(defaultFormFieldValues)
 		}
 		catch (error) {
-			console.log('Ooops Something went wrong!', error?.message)
+			if (error?.code === 'auth/email-already-in-use') {
+				alert('Cannot create user, email already in use');
+			} else {
+				console.log('user creation encountered an error', error);
+			}
 		}
 	}
 
 	return (
 		<Fragment>
-			<div>
-				<h1>Sign uo with username and password</h1>
+			<div className='sign-up-container'>
+				<h2>Don't have an account?</h2>
+				<span>Sign up with username and password</span>
 				<form onSubmit={(event) => onFormSubmitHandler(event)}>
-					<label>Username</label>
-					<input name='displayName' value={displayName} type='text' required onChange={(event) => onInputChangeHandler(event)} />
 
-					<label>Email</label>
-					<input name='userEmail' value={userEmail} type='email' required onChange={(event) => onInputChangeHandler(event)} />
+					<FormInput
+						label='User Name'
+						name='displayName'
+						value={displayName}
+						type='text'
+						required
+						onChange={(event) => onInputChangeHandler(event)} />
 
-					<label>Password</label>
-					<input name='password' value={password} type='password' required onChange={(event) => onInputChangeHandler(event)} />
+					<FormInput
+						label='Email'
+						name='userEmail'
+						value={userEmail}
+						type='email'
+						required
+						onChange={(event) => onInputChangeHandler(event)} />
 
-					<label>Confirm Password</label>
-					<input name='confirmPassword' value={confirmPassword} type='password' required onChange={(event) => onInputChangeHandler(event)} />
+					<FormInput
+						label='Password'
+						name='password'
+						value={password}
+						type='password'
+						required
+						onChange={(event) => onInputChangeHandler(event)} />
 
-					<button type='submit'>Sign Up</button>
+					<FormInput
+						label='Confirm Password'
+						name='confirmPassword'
+						value={confirmPassword}
+						type='password'
+						required
+						onChange={(event) => onInputChangeHandler(event)} />
+
+					<Button type='submit'>Sign Up</Button>
 				</form>
 			</div>
 		</Fragment>
