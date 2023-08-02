@@ -1,9 +1,11 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useContext } from 'react'
 import './SignUpForm.scss'
 
 import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from '../../utils/firebase/firebase.config'
 import FormInput from '../FormInput/FormInput'
 import Button from '../Button/Button'
+
+import { UserContext } from '../../context/userContext'
 
 const defaultFormFieldValues = {
 	displayName: '',
@@ -16,6 +18,8 @@ export default function SignUpForm() {
 
 	const [formFields, setFormFields] = useState(defaultFormFieldValues)
 	const { displayName, userEmail, password, confirmPassword } = formFields
+
+	const { setCurrentUser } = useContext(UserContext)
 
 	function onInputChangeHandler(event) {
 		const { name, value } = event.target
@@ -32,6 +36,7 @@ export default function SignUpForm() {
 		try {
 			const { user } = await createAuthUserWithEmailAndPassword(userEmail, password)
 			await createUserDocumentFromAuth(user, { displayName })
+			setCurrentUser(user)
 			setFormFields(defaultFormFieldValues)
 		}
 		catch (error) {

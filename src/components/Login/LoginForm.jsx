@@ -1,9 +1,11 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState, useContext } from 'react'
 import './LoginForm.scss'
 
 import { signInUserWithEmailAndPassword, signInWithGooglePopup, createUserDocumentFromAuth } from '../../utils/firebase/firebase.config'
 import FormInput from '../FormInput/FormInput'
 import Button from '../Button/Button'
+
+import { UserContext } from '../../context/userContext'
 
 const defaultFormFieldValues = {
   userEmail: '',
@@ -15,6 +17,8 @@ export default function LoginForm() {
   const [formFields, setFormFields] = useState(defaultFormFieldValues)
   const { userEmail, password } = formFields
 
+  const { setCurrentUser } = useContext(UserContext)
+
   function onInputChangeHandler(event) {
     const { name, value } = event.target
     setFormFields({ ...formFields, [name]: value })
@@ -23,12 +27,14 @@ export default function LoginForm() {
   async function signInWithGoogle() {
     const { user } = await signInWithGooglePopup()
     await createUserDocumentFromAuth(user)
+    setCurrentUser(user)
   }
 
   async function onFormSubmitHandler(event) {
     event.preventDefault()
     try {
       const response = await signInUserWithEmailAndPassword(userEmail, password)
+      setCurrentUser(response?.user)
       setFormFields(defaultFormFieldValues)
     }
     catch (error) {
