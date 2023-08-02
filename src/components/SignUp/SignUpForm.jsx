@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from 'react'
 import './SignUpForm.scss'
 
-import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from '../../../utils/firebase/firebase.config'
-import FormInput from '../../../components/FormInput/FormInput'
-import Button from '../../../components/Button/Button'
+import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from '../../utils/firebase/firebase.config'
+import FormInput from '../FormInput/FormInput'
+import Button from '../Button/Button'
 
 const defaultFormFieldValues = {
 	displayName: '',

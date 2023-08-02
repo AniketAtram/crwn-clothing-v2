@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import './Authentication.scss'
-import SignUpForm from './SignUp/SignUpForm'
-import LoginForm from './Login/LoginForm'
+import SignUpForm from '../../components/SignUp/SignUpForm'
+import LoginForm from '../../components/Login/LoginForm'
 
 export default function Authentication() {
 	return (

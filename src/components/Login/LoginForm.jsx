@@ -1,9 +1,9 @@
 import React, { Fragment, useState } from 'react'
 import './LoginForm.scss'
 
-import { signInUserWithEmailAndPassword, signInWithGooglePopup, createUserDocumentFromAuth } from '../../../utils/firebase/firebase.config'
-import FormInput from '../../../components/FormInput/FormInput'
-import Button from '../../../components/Button/Button'
+import { signInUserWithEmailAndPassword, signInWithGooglePopup, createUserDocumentFromAuth } from '../../utils/firebase/firebase.config'
+import FormInput from '../FormInput/FormInput'
+import Button from '../Button/Button'
 
 const defaultFormFieldValues = {
   userEmail: '',
